@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>{{ project.project_name }}</h3>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <p><strong>Description:</strong> {{ project.description or 'No description provided.' }}</p>
+                <p><strong>Status:</strong> {{ project.status }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header bg-white"><strong>Groups</strong></div>
+            <div class="card-body">
+                {% for group in groups %}
+                    <div class="mb-2">
+                        <strong>{{ group.group_name }}</strong>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

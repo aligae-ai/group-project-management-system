@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>Groups</h3>
+</div>
+<div class="row g-3">
+    {% for group in groups %}
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>{{ group.group_name }}</h5>
+                <p><strong>Project ID:</strong> {{ group.project_id }}</p>
+                <a href="{{ url_for('groups.group_detail', id=group.id) }}" class="btn btn-primary btn-sm">Open Group</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

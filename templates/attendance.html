@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>Attendance</h3>
+</div>
+
+{% if is_record %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="row g-3">
+                <div class="col-md-6">{{ form.activity_id.label }} {{ form.activity_id(class='form-select') }}</div>
+                <div class="col-md-6">{{ form.student_id.label }} {{ form.student_id(class='form-select') }}</div>
+                <div class="col-md-6">{{ form.attendance_status.label }} {{ form.attendance_status(class='form-select') }}</div>
+                <div class="col-md-12">{{ form.remarks.label }} {{ form.remarks(class='form-control') }}</div>
+                <div class="col-md-12"><button type="submit" class="btn btn-primary">Save Attendance</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body">
+        {% if records %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Activity</th>
+                    <th>Status</th>
+                    <th>Recorded</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.student_id }}</td>
+                    <td>{{ r.activity_id }}</td>
+                    <td>{{ r.attendance_status }}</td>
+                    <td>{{ r.recorded_at.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="text-muted mb-0">No attendance records available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>Missed Activities</h3>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Activity Type</th>
+                    <th>Reason</th>
+                    <th>Date Missed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in missed_activities %}
+                <tr>
+                    <td>{{ item.student_id }}</td>
+                    <td>{{ item.activity_type }}</td>
+                    <td>{{ item.reason }}</td>
+                    <td>{{ item.date_missed }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

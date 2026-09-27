@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>Accountability Alerts</h3>
+</div>
+<div class="card">
+    <div class="card-body">
+        {% if alerts %}
+            {% for alert in alerts %}
+                <div class="alert-box">
+                    <strong>{{ alert.alert_type|replace('_',' ')|title }}</strong>
+                    <p>{{ alert.message }}</p>
+                    <small>{{ alert.created_at.strftime('%Y-%m-%d') }}</small>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted mb-0">No alerts.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

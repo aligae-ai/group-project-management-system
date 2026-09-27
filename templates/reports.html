@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <h3>Reports</h3>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Student</label>
+                <select name="student_id" class="form-select">
+                    <option value="">All</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}" {% if filters.student_id == student.id|string %}selected{% endif %}>{{ student.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Project</label>
+                <select name="project_id" class="form-select">
+                    <option value="">All</option>
+                    {% for project in projects %}
+                        <option value="{{ project.id }}" {% if filters.project_id == project.id|string %}selected{% endif %}>{{ project.project_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Group</label>
+                <select name="group_id" class="form-select">
+                    <option value="">All</option>
+                    {% for group in groups %}
+                        <option value="{{ group.id }}" {% if filters.group_id == group.id|string %}selected{% endif %}>{{ group.group_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Activity Type</label>
+                <select name="activity_type" class="form-select">
+                    <option value="">All</option>
+                    {% for activity_type in activity_types %}
+                        <option value="{{ activity_type }}" {% if filters.activity_type == activity_type %}selected{% endif %}>{{ activity_type|replace('_',' ')|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="start_date" class="form-control" value="{{ filters.start_date }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">End Date</label>
+                <input type="date" name="end_date" class="form-control" value="{{ filters.end_date }}">
+            </div>
+            <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-primary">Generate Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Project</th>
+                    <th>Group</th>
+                    <th>Total Activities</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                    <th>Attendance %</th>
+                    <th>Missed Activities</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in report_rows %}
+                <tr>
+                    <td>{{ row.student.full_name }}</td>
+                    <td>{{ row.project.project_name if row.project else '-' }}</td>
+                    <td>{{ row.group.group_name if row.group else '-' }}</td>
+                    <td>{{ row.total_activities }}</td>
+                    <td>{{ row.present }}</td>
+                    <td>{{ row.absent }}</td>
+                    <td>{{ row.percentage }}%</td>
+                    <td>{{ row.missed }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

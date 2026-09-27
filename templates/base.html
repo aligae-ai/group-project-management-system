@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title or 'Group Project Management' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        {% if current_user.is_authenticated %}
+        <aside class="sidebar">
+            <div class="brand-box">IT Project Tracker</div>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="{{ url_for('dashboard.index') }}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('projects.list_projects') }}">My Project</a>
+                <a class="nav-link" href="{{ url_for('groups.list_groups') }}">Group Members</a>
+                <a class="nav-link" href="{{ url_for('activities.list_activities') }}">Activities</a>
+                <a class="nav-link" href="{{ url_for('attendance.list_attendance') }}">Attendance</a>
+                <a class="nav-link" href="{{ url_for('reports.reports') }}">Reports</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </nav>
+        </aside>
+        {% endif %}
+
+        <main class="main-content">
+            {% if current_user.is_authenticated %}
+            <nav class="topbar">
+                <div>
+                    <span class="text-muted">Welcome</span>
+                    <strong>{{ current_user.full_name }}</strong>
+                </div>
+                <div class="topbar-right">
+                    <span class="badge bg-purple">{{ current_user.role.title() }}</span>
+                </div>
+            </nav>
+            {% endif %}
+
+            <div class="container-fluid px-4 py-3">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

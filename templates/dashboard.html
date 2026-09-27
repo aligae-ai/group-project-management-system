@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="card stat-card purple">
+            <h6>Attendance Percentage</h6>
+            <h2>{{ stats.percentage }}%</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Total Activities</h6>
+            <h2>{{ stats.total_activities }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <h6>Present</h6>
+            <h2>{{ stats.present }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card warning">
+            <h6>Missed Activities</h6>
+            <h2>{{ stats.missed }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-white"><strong>Upcoming Activities</strong></div>
+            <div class="card-body">
+                {% if upcoming %}
+                    <ul class="list-group list-group-flush">
+                        {% for activity in upcoming %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ activity.title }}</strong><br>
+                                <small>{{ activity.activity_type|replace('_', ' ')|title }} • {{ activity.scheduled_date }}</small>
+                            </div>
+                            <span class="badge bg-light text-dark">{{ activity.status }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No upcoming activities available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-white"><strong>Accountability Alerts</strong></div>
+            <div class="card-body">
+                {% if alerts %}
+                    {% for alert in alerts %}
+                    <div class="alert-box">
+                        <small>{{ alert.created_at.strftime('%Y-%m-%d') }}</small>
+                        <p>{{ alert.message }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted mb-0">No alerts at the moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
