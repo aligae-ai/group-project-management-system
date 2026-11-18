@@ -1,94 +1,56 @@
-# Group Project Management System
+# BIGBREW Management System (Python + Flask + MySQL)
 
-This project is a Flask-based web application for managing group projects, scheduled activities, attendance, missed activities, accountability alerts, and reports for Information Technology students.
+## What changed
+- Brand changed from Brew & Bean to BIGBREW.
+- Login page now says SIGN IN and links to SIGN UP.
+- Staff can create an account; new accounts receive the `cashier` role.
+- Logout is available in the navigation bar on every signed-in page.
+- Responsive web interface works on desktop, tablet, and mobile browsers.
+- Includes dashboard, POS, menu, inventory/restock, sales history, and reports.
+- Menu flavors and prices follow the supplied poster.
 
-## Features
-- Role-based login for Student, Project Leader, Instructor/Adviser, and Administrator
-- Group and project management
-- Scheduled activity creation and listing
-- Automatic attendance decisions using the flowchart logic
-- Missed activity classification and tracking
-- Accountability alerts on the student dashboard
-- Attendance percentage recalculation from stored attendance records
-- MySQL-backed persistence
-- Dashboard and reports for monitoring student performance
-
-## Project Structure
-- `app.py` - app entry point
-- `config.py` - configuration and environment settings
-- `database.sql` - MySQL schema and sample data template
-- `models/` - SQLAlchemy models
-- `routes/` - Flask route modules
-- `templates/` - HTML templates
-- `static/` - CSS and JavaScript assets
-
-## Requirements
-- Python 3.10+
-- MySQL Server / MySQL Workbench
-- Visual Studio Code or Visual Studio with Python support
-
-## Setup
-1. Create and activate virtual environment:
+## Setup in VS Code
+1. Install Python 3.9+ and MySQL Server.
+2. Start MySQL Server.
+3. Open `main.py` and change `DB_CONFIG["password"]` to your MySQL password.
+4. Open VS Code terminal in this folder:
    ```bash
-   python -m venv venv
-   venv\Scripts\activate
+   python -m pip install -r requirements.txt
    ```
-
-2. Install dependencies:
+5. Start:
    ```bash
-   pip install -r requirements.txt
+   python main.py
    ```
+6. On the same PC, visit `http://127.0.0.1:5000`.
 
-3. Create the MySQL database and import schema:
-   ```sql
-   CREATE DATABASE group_project_management;
-   ```
-   Then import `database.sql` through MySQL Workbench or CLI.
+## Open on a cellphone
+- Connect the phone and computer to the same Wi-Fi network.
+- Run the app on your computer.
+- In the terminal, find the printed line `Phone on same Wi-Fi: http://...:5000`.
+- Type that exact address into the phone's browser.
+- If Windows Firewall asks, allow Python on Private networks.
+- Keep the computer and Python server running while using it on the phone.
 
-4. Configure environment variables:
-   ```bash
-   copy .env.example .env
-   ```
-   Update `.env` with your local database credentials.
+This is local-network access, not public internet hosting. For access outside the same Wi-Fi, deploy the app to a secure hosting service and configure production security.
 
-5. Run the app:
-   ```bash
-   python app.py
-   ```
+## Demo admin account
+- Username: `admin`
+- Password: `admin123`
 
-6. Open the site in your browser:
-   ```text
-   http://localhost:5000/login
-   ```
+New staff accounts can register from the SIGN UP page. Registration creates cashier-level accounts only.
 
-## Default sample users
-The app seeds sample users on first startup if they do not already exist.
+## Database notes
+The app creates `coffee_shop_db` and the needed tables if they do not exist. Existing tables and sales are retained. Menu items are upserted by product code; old menu products not in the poster are marked unavailable rather than deleted.
 
-- Admin: admin@groupproject.com / Admin123!
-- Instructor: instructor@groupproject.com / Instructor123!
-- Project Leader: john@groupproject.com / Leader123!
-- Student: student1a@groupproject.com / Student1123!
+The supplied poster prices are:
+- Milk Tea: Regular ₱29, Large ₱39
+- Coffee: Iced Regular ₱29, Iced Large ₱39, Hot ₱39
+- Fruit Tea: Regular ₱29, Large ₱39
+- BROSTY: Regular ₱49, Large ₱59
+- Praf: Regular ₱49, Large ₱59
+- Add-ons: ₱9 each; Extra Shot ₱5
 
-## MySQL configuration
-Edit `.env`:
-```env
-SECRET_KEY=your_secret_key
-MYSQL_HOST=localhost
-MYSQL_USER=root
-MYSQL_PASSWORD=your_password
-MYSQL_DATABASE=group_project_management
-```
+The menu poster lists 8 add-ons at ₱9 plus Extra Shot at ₱5.
 
-## Important workflow implemented
-The application follows the flowchart logic:
-1. Scheduled activity is created.
-2. Attendance is checked for each member.
-3. If present, attendance is recorded and the dashboard updates.
-4. If absent, a missed activity record is created.
-5. The activity category is identified and stored.
-6. An accountability alert is generated.
-7. Attendance percentage is recalculated automatically.
-8. Dashboard counters and alerts are updated.
-
-## Notes
-This project is designed as a beginner-friendly capstone project and is intentionally structured for academic learning and demonstration.
+## Important
+The app uses a simple SHA-256 password hash to remain compatible with the earlier academic project database. Before real commercial use, upgrade password storage to a dedicated password-hashing method, set a strong secret key, use HTTPS, add CSRF protection, backups, and access controls.
